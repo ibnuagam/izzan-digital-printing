@@ -2,6 +2,8 @@
 
 Proyek skripsi aplikasi berbasis web untuk mengelola pemesanan layanan percetakan dan menganalisis pola pemesanan menggunakan K-Means. Informasi yang dihasilkan membantu pengelola memahami layanan yang sering dipesan, volume permintaan, periode pemesanan, dan prioritas kebutuhan bahan.
 
+Repositori private: [ibnuagam/izzan-digital-printing](https://github.com/ibnuagam/izzan-digital-printing). Branch utama: `main`.
+
 ## Status proyek
 
 Per 30 September 2026, proyek berada pada tahap diskusi kebutuhan dan pemeriksaan lingkungan pengembangan. Kode aplikasi Laravel belum dibuat. Repositori awal berisi catatan kebutuhan dan arahan pengembangan; panduan menjalankan aplikasi akan ditambahkan setelah aplikasi tersedia.

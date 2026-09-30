@@ -79,11 +79,11 @@ Flowchart dan ERD diminta untuk dibahas nanti, setelah kebutuhan lebih jelas. Ja
 ## Kolaborasi melalui GitHub
 
 - Pengguna meminta proyek dibagikan melalui repositori GitHub agar dapat berdiskusi dan berkolaborasi dengan teman.
-- Pengguna memilih membuat repositori baru setelah usulan nama `izzan-digital-printing` dengan akses private. Repositori belum dibuat; URL dan akun pemilik belum diverifikasi.
-- Folder sudah memiliki repositori Git lokal. Pada pemeriksaan awal belum ada commit dan remote GitHub.
+- Repositori baru telah dibuat dan diverifikasi sebagai **private** pada akun `ibnuagam`: `https://github.com/ibnuagam/izzan-digital-printing`.
+- Folder lokal terhubung melalui remote `origin` ke `https://github.com/ibnuagam/izzan-digital-printing.git`. Branch utama `main` sudah di-push dan melacak `origin/main`.
 - `README.md` dan `.gitignore` telah disiapkan. README menjelaskan status, teknologi, catatan bersama, dan alur kolaborasi. Konfigurasi `.env`, dependensi, database lokal, serta lokasi unggahan pelanggan dan data nyata dikecualikan dari Git.
-- GitHub CLI (`gh`) tidak tersedia saat diperiksa. Halaman GitHub untuk membuat repositori dibuka melalui browser aplikasi, tetapi memerlukan login pengguna.
-- Pengguna perlu login ke GitHub agar pembuatan repositori dapat dilanjutkan. Akses teman belum diberikan; username teman belum diketahui.
+- GitHub CLI (`gh`) tidak tersedia saat diperiksa. Pembuatan repositori dilakukan melalui browser setelah pengguna login; pengunggahan commit menggunakan Git dari terminal dan berhasil.
+- Akses teman belum diberikan; username teman belum diketahui. Pengguna dapat mengundang teman melalui pengaturan Collaborators repositori.
 - Pembaruan tidak otomatis tersinkronkan: perubahan lokal dibagikan dengan commit dan push, lalu pengembang lain melakukan pull. Gunakan branch dan pull request untuk meninjau perubahan.
 
 ## Hal yang perlu dipastikan saat memulai implementasi
