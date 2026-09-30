@@ -2,7 +2,7 @@
 
 Proyek skripsi aplikasi berbasis web untuk mengelola pemesanan layanan percetakan dan menganalisis pola pemesanan menggunakan K-Means. Informasi yang dihasilkan membantu pengelola memahami layanan yang sering dipesan, volume permintaan, periode pemesanan, dan prioritas kebutuhan bahan.
 
-Repositori private: [ibnuagam/izzan-digital-printing](https://github.com/ibnuagam/izzan-digital-printing). Branch utama: `main`.
+Repositori public: [ibnuagam/izzan-digital-printing](https://github.com/ibnuagam/izzan-digital-printing). Branch utama: `main`. Membuka, mengunduh, dan clone tidak memerlukan undangan collaborator.
 
 ## Status proyek
 
@@ -35,7 +35,7 @@ Keputusan penting harus dicatat kembali agar diskusi aplikasi dan penulisan skri
 
 ## Cara berkolaborasi
 
-1. Pemilik membagikan tautan repositori. Jika repositori private, pemilik mengundang akun GitHub teman sebagai collaborator.
+1. Pemilik membagikan tautan repositori public. Teman dapat langsung membaca, mengunduh, atau clone. Akses push langsung tetap memerlukan undangan collaborator; tanpa akses tersebut, gunakan fork dan pull request.
 2. Setiap pengembang melakukan clone repositori ke perangkatnya dan membaca catatan bersama.
 3. Sebelum mulai bekerja, ambil pembaruan terbaru dengan Git pull. Gunakan branch terpisah untuk perubahan fitur, misalnya `codex/dashboard-manajer`.
 4. Simpan perubahan melalui commit, lalu push branch ke GitHub dan buat pull request agar perubahan dapat dibahas serta diperiksa.
