@@ -1,50 +1,92 @@
 # Izzan Digital Printing
 
-Proyek skripsi aplikasi berbasis web untuk mengelola pemesanan layanan percetakan dan menganalisis pola pemesanan menggunakan K-Means. Informasi yang dihasilkan membantu pengelola memahami layanan yang sering dipesan, volume permintaan, periode pemesanan, dan prioritas kebutuhan bahan.
+Aplikasi Laravel untuk proyek skripsi analisis pola pemesanan layanan percetakan. Backend menggunakan PHP; K-Means direncanakan dalam PHP.
 
-Repositori public: [ibnuagam/izzan-digital-printing](https://github.com/ibnuagam/izzan-digital-printing). Branch utama: `main`. Membuka, mengunduh, dan clone tidak memerlukan undangan collaborator.
+## Fitur saat ini
 
-## Status proyek
+- Login admin, manajer dan pelanggan; registrasi pelanggan.
+- Pengelolaan layanan/bahan dan gambar layanan; katalog pelanggan.
+- Pesanan dengan jumlah, ukuran, volume, unggah desain privat, penawaran harga, persetujuan pelanggan dan status pengerjaan.
 
-Per 30 September 2026, proyek berada pada tahap diskusi kebutuhan dan pemeriksaan lingkungan pengembangan. Kode aplikasi Laravel belum dibuat. Repositori awal berisi catatan kebutuhan dan arahan pengembangan; panduan menjalankan aplikasi akan ditambahkan setelah aplikasi tersedia.
+Pembayaran, analisis K-Means, stok, nota dan notifikasi WhatsApp belum diimplementasikan. Data seeder adalah dummy, bukan hasil penelitian toko.
 
-## Teknologi yang dipilih
+## Instalasi Windows (PowerShell)
 
-- Bahasa backend: PHP.
-- Framework: Laravel.
-- Analisis K-Means dan evaluasi: PHP di dalam proyek Laravel; pustaka analisis belum dipilih.
-- Editor pengembang utama: VS Code di MacBook M1.
-- Database lokal pengembang utama: lingkungan XAMPP, dikelola melalui phpMyAdmin. Jenis dan versi server aktif perlu diverifikasi.
+1. Siapkan Git, Composer, PHP **8.3 atau lebih baru yang kompatibel dengan composer.lock**, dan MySQL/MariaDB (dapat menggunakan XAMPP). PHP 8.2 tidak dapat menjalankan proyek ini. Periksa:
 
-Versi framework dan komponen final mengikuti pemeriksaan kompatibilitas lingkungan. PHP Homebrew dan PHP XAMPP pada perangkat pengembang utama memiliki versi berbeda; detail pemeriksaan dicatat dalam konteks proyek.
+```powershell
+php -v
+composer -V
+where.exe php
+php -m
+```
 
-## Fokus aplikasi
+Pastikan Composer memakai PHP yang sama. Aktifkan ekstensi BCMath (perhitungan volume/harga), PDO MySQL, mbstring, OpenSSL, Fileinfo, DOM/XML, cURL dan ekstensi yang diminta Composer. GD dibutuhkan untuk menjalankan tes unggah gambar; PDO SQLite dibutuhkan untuk tes otomatis. Bila PHP XAMPP masih 8.2, gunakan PHP CLI 8.3+ untuk Composer dan Artisan; MySQL XAMPP tetap dapat dipakai.
 
-- Admin mengelola layanan, bahan, pemesanan, pembayaran, dan proses analisis.
-- Manajer melihat ringkasan transaksi, tren periode, layanan terlaris, serta karakteristik kelompok pemesanan.
-- Fitur pelanggan yang dibahas mencakup katalog, pemesanan, unggah desain, pembayaran, dan status pesanan; cakupan final masih perlu ditetapkan.
-- Rekap penjualan dan grafik waktu dibedakan dari hasil K-Means. Clustering tidak otomatis menjadi prediksi stok atau penjelasan sebab pelanggan membeli.
-- Data dummy digunakan untuk pengembangan dan simulasi, bukan sebagai data penelitian lapangan.
+2. Clone lalu pasang dependensi:
 
-## Catatan bersama
+```powershell
+cd C:\xampp\htdocs
+git clone https://github.com/ibnuagam/izzan-digital-printing.git
+cd izzan-digital-printing
+composer install
+Copy-Item .env.example .env
+php artisan key:generate
+```
 
-- [Konteks proyek](KONTEKS_PROYEK.md): kebutuhan, keputusan teknologi, batasan, dan pertanyaan terbuka.
-- [Panduan agen](AGENTS.md): arahan untuk Codex ketika mengerjakan proyek ini.
+Jika sudah memiliki folder dari ZIP lama, clone ke folder baru. Folder yang benar memiliki `artisan`, `composer.json`, `app`, `routes`, dan `resources`. Tidak perlu membuat proyek Laravel baru atau memasang installer Laravel global.
 
-Keputusan penting harus dicatat kembali agar diskusi aplikasi dan penulisan skripsi menggunakan acuan yang sama.
+3. Nyalakan MySQL pada XAMPP. Buat database kosong `izzan_printing` melalui phpMyAdmin. Sesuaikan `.env` dengan koneksi laptop masing-masing:
 
-## Cara berkolaborasi
+```dotenv
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=izzan_printing
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-1. Pemilik membagikan tautan repositori public. Teman dapat langsung membaca, mengunduh, atau clone. Akses push langsung tetap memerlukan undangan collaborator; tanpa akses tersebut, gunakan fork dan pull request.
-2. Setiap pengembang melakukan clone repositori ke perangkatnya dan membaca catatan bersama.
-3. Sebelum mulai bekerja, ambil pembaruan terbaru dengan Git pull. Gunakan branch terpisah untuk perubahan fitur, misalnya `codex/dashboard-manajer`.
-4. Simpan perubahan melalui commit, lalu push branch ke GitHub dan buat pull request agar perubahan dapat dibahas serta diperiksa.
-5. Setelah perubahan digabungkan, pengembang lain melakukan pull untuk memperbarui salinan lokalnya.
+Isi password bila server lokal memilikinya. Kemudian:
 
-GitHub tidak menyinkronkan perubahan lokal secara otomatis. Perubahan di VS Code maupun catatan hasil diskusi baru tersedia bagi teman setelah di-commit dan di-push. GitHub Issues dapat digunakan untuk membahas kebutuhan, bug, dan pembagian pekerjaan.
+```powershell
+php artisan config:clear
+php artisan migrate
+php artisan db:seed --class=DemoUserSeeder
+php artisan db:seed --class=MasterDemoSeeder
+php artisan storage:link
+php artisan serve
+```
 
-## Konfigurasi dan data lokal
+Buka http://127.0.0.1:8000. Tampilan aktif menggunakan CSS/JavaScript di `public`; npm/build tidak diperlukan untuk menjalankan tampilan saat ini. Apache tidak diperlukan bila menggunakan `artisan serve`. Bila memakai Apache, DocumentRoot harus menunjuk folder `public`.
 
-Ketika aplikasi tersedia, setiap pengembang menggunakan file `.env` dan database lokal masing-masing. Contoh konfigurasi tanpa kredensial dapat disimpan dalam `.env.example`. Struktur database dibagikan melalui migration Laravel dan data simulasi melalui seeder.
+## Akun simulasi lokal
 
-File `.gitignore` mengecualikan konfigurasi lingkungan, dependensi yang dihasilkan, log, database lokal, serta lokasi data nyata dan unggahan pelanggan. Jangan memasukkan data transaksi nyata atau bukti pembayaran ke repositori tanpa peninjauan khusus. Lokasi penyimpanan aktual akan disesuaikan saat implementasi.
+| Peran | Email | Password |
+| --- | --- | --- |
+| Admin | admin@izzan.test | IzzanDemo2026! |
+| Manajer | manajer@izzan.test | IzzanDemo2026! |
+| Pelanggan | pelanggan@izzan.test | IzzanDemo2026! |
+
+Seeder tersebut hanya dapat berjalan ketika `APP_ENV=local`. Jangan gunakan akun demo untuk produksi. Gambar/desain dan transaksi laptop pemilik tidak disertakan; teman dapat membuat pesanan dummy sendiri.
+
+## Pembaruan dan pengujian
+
+Untuk clone yang sudah ada dan tidak memiliki perubahan lokal:
+
+```powershell
+git pull origin main
+composer install
+php artisan migrate
+php artisan optimize:clear
+```
+
+Jika ada perubahan lokal, simpan dalam commit/branch terlebih dahulu; jangan menghapusnya untuk memaksa pull. Untuk mengusulkan perubahan, buat branch lalu pull request. Clone publik dapat dilakukan tanpa akun; push membutuhkan akses collaborator.
+
+Tes menggunakan SQLite terpisah di memori, bukan database operasional:
+
+```powershell
+php artisan test
+```
+
+`.env`, database lokal, file unggahan, `vendor` dan cache tidak dibagikan. Setiap laptop memiliki database dan konfigurasi sendiri.

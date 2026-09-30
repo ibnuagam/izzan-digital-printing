@@ -93,3 +93,9 @@ Flowchart dan ERD diminta untuk dibahas nanti, setelah kebutuhan lebih jelas. Ja
 - Cakupan pelanggan, pemeriksaan pesanan, dan pembayaran versi awal.
 - Unit pengelompokan, periode, fitur numerik, dan strategi menangani satuan volume berbeda.
 - Ketersediaan data nyata untuk penelitian dan penyesuaian proposal dengan dosen.
+
+## Pengunggahan aplikasi ke GitHub (30 September 2026)
+
+- Kode aplikasi ditemukan di `/Applications/XAMPP/xamppfiles/htdocs/Project-Skripsi/izzan-printing`, terpisah dari checkout diskusi yang sebelumnya hanya berisi dokumentasi. Salinan kode dimasukkan ke root repositori agar dapat di-clone teman pengguna. Folder XAMPP tetap lokasi aplikasi yang sedang dijalankan; perubahan di sana belum otomatis tersinkron ke GitHub.
+- Kondisi implementasi yang diperiksa: Laravel 13, PHP minimal 8.3; autentikasi tiga peran, registrasi pelanggan, data master layanan/bahan, gambar layanan, katalog, pesanan/unggah desain, penawaran harga dan perubahan status tersedia. Pembayaran, K-Means, stok, nota dan pemberitahuan WhatsApp belum tersedia.
+- Repositori menyertakan migration, seeder dummy, composer.lock dan panduan Windows. .env, database lokal, desain pelanggan, gambar unggahan, vendor, cache dan log tidak diunggah. .env.example disiapkan untuk database MySQL/MariaDB lokal.
