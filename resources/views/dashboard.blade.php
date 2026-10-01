@@ -17,8 +17,9 @@ $recentOrders = (clone $orderQuery)->latest('id')->limit(5)->get();
 <section class="panel readiness" id="development-status"><div class="panel-heading"><div><h2>Kesiapan fitur</h2><p>Tahap pengembangan aplikasi</p></div></div>
 <div class="stage done"><span class="stage-icon"><x-icon name="check"/></span><div><h3>Akun & hak akses</h3><p>Login, logout, dan tiga peran</p></div><span class="ready-chip">Siap</span></div>
 <div class="stage done"><span class="stage-icon"><x-icon name="check"/></span><div><h3>{{ $customer ? 'Katalog layanan' : 'Layanan & bahan' }}</h3><p>Data dasar percetakan</p></div><span class="ready-chip">Siap</span></div>
-<div class="stage done"><span class="stage-icon"><x-icon name="check"/></span><div><h3>Pesanan & pemeriksaan</h3><p>Pesanan aktif · pembayaran menyusul</p></div><span class="ready-chip">Siap</span></div>
-@if(!$customer)<div class="stage"><span class="stage-icon">04</span><div><h3>Analisis & laporan</h3><p>Rekap dan pengelompokan K-Means</p></div></div>@endif
+<div class="stage done"><span class="stage-icon"><x-icon name="check"/></span><div><h3>Pesanan & pemeriksaan</h3><p>Pemeriksaan spesifikasi dan status pengerjaan</p></div><span class="ready-chip">Siap</span></div>
+<div class="stage done"><span class="stage-icon"><x-icon name="check"/></span><div><h3>Pembayaran & nota</h3><p>Bukti, verifikasi, pelunasan, dan cetak</p></div><span class="ready-chip">Siap</span></div>
+@if(!$customer)<div class="stage"><span class="stage-icon">05</span><div><h3>Analisis & laporan</h3><p>Rekap dan pengelompokan K-Means</p></div></div>@endif
 <div class="readiness-note">{{ $customer ? 'Fitur ditambahkan secara bertahap agar alur pemesanan dapat diuji dengan baik.' : 'Analisis dimulai setelah unit, satuan volume, dan data pemesanan siap.' }}</div></section></div>
 @if(!$customer)<section class="insight-note"><span class="metric-icon"><x-icon name="chart"/></span><div><strong>Memahami pola, mendukung keputusan.</strong><p>Rekap menampilkan transaksi. K-Means mengelompokkan pola yang mirip untuk membantu peninjauan kebutuhan bahan.</p></div></section>@endif
 @endsection

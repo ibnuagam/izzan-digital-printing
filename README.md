@@ -8,7 +8,7 @@ Aplikasi Laravel untuk proyek skripsi analisis pola pemesanan layanan percetakan
 - Pengelolaan layanan/bahan dan gambar layanan; katalog pelanggan.
 - Pesanan dengan jumlah, ukuran, volume, unggah desain privat, penawaran harga, persetujuan pelanggan dan status pengerjaan.
 
-Pembayaran, analisis K-Means, stok, nota dan notifikasi WhatsApp belum diimplementasikan. Data seeder adalah dummy, bukan hasil penelitian toko.
+Pembayaran simulasi dengan unggah bukti dan verifikasi admin, nota cetak, chat privat pesanan, serta template WhatsApp manual/kartu JPG sudah tersedia. K-Means, stok dan dashboard keuangan belum diimplementasikan. Tidak ada pembayaran atau pengiriman WhatsApp otomatis. Data seeder adalah dummy, bukan hasil penelitian toko.
 
 ## Instalasi Windows (PowerShell)
 

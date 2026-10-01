@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Service;
+use App\Services\PaymentTotals;
+use App\Services\RupiahInput;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -107,7 +109,14 @@ class OrderController extends Controller
     {
         $this->authorizeOrder($order);
 
-        return view('orders.show', ['order' => $order->load('user', 'events.user'), 'statuses' => Order::STATUSES]);
+        return view('orders.show', ['order' => $order->load('user', 'events.user', 'payments.reviewer'), 'statuses' => Order::STATUSES, 'totals' => PaymentTotals::forOrder($order)]);
+    }
+
+    public function receipt(Order $order)
+    {
+        $this->authorizeOrder($order);
+
+        return view('orders.print', ['order' => $order->load('user', 'payments'), 'totals' => PaymentTotals::forOrder($order)]);
     }
 
     public function design(Order $order)
@@ -120,6 +129,7 @@ class OrderController extends Controller
 
     public function review(Request $request, Order $order)
     {
+        RupiahInput::prepare($request, 'final_total');
         $data = $request->validate(['action' => ['required', Rule::in(['quote', 'revision'])], 'admin_notes' => ['required_if:action,revision', 'nullable', 'string', 'max:3000'], 'final_total' => ['required_if:action,quote', 'nullable', 'numeric', 'min:0.01', 'max:999999999999.99', 'decimal:0,2']]);
         DB::transaction(function () use ($order, $data) {
             $locked = Order::whereKey($order->id)->lockForUpdate()->firstOrFail();
@@ -202,12 +212,16 @@ class OrderController extends Controller
             $next = match ($locked->status) {
                 'confirmed' => ['processing'],'processing' => ['completed'],'completed' => [$locked->delivery_method === 'shipping' ? 'shipped' : 'collected'],default => []
             };
-            if (! in_array($data['status'],$next,true)) {
+            if (! in_array($data['status'], $next, true)) {
                 throw ValidationException::withMessages(['status' => 'Perubahan status tidak sesuai urutan atau metode penyerahan.']);
-            }$locked->update(['status' => $data['status']]);
-            $this->event($locked,$data['status'],$data['note'] ?? null);
+            }
+            if (in_array($data['status'], ['shipped', 'collected'], true) && ! PaymentTotals::forOrder($locked)['is_paid']) {
+                throw ValidationException::withMessages(['status' => 'Pesanan belum lunas. Verifikasi pelunasan sebelum pesanan diambil atau dikirim.']);
+            }
+            $locked->update(['status' => $data['status']]);
+            $this->event($locked, $data['status'], $data['note'] ?? null);
         });
 
-        return back()->with('status','Status pengerjaan diperbarui.');
+        return back()->with('status', 'Status pengerjaan diperbarui.');
     }
 }

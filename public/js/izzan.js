@@ -56,3 +56,20 @@ imageInput?.addEventListener('change', () => {
 });
 
 document.querySelectorAll('form[data-confirm]').forEach(form=>form.addEventListener('submit',event=>{if(!window.confirm(form.dataset.confirm))event.preventDefault();}));
+
+const paymentMethod=document.getElementById('method');
+function showPaymentMethod(){document.querySelectorAll('[data-payment-method]').forEach(panel=>panel.hidden=panel.dataset.paymentMethod!==paymentMethod.value);}
+paymentMethod?.addEventListener('change',showPaymentMethod);if(paymentMethod)showPaymentMethod();
+
+function rupiahValue(value){
+ let text=value.trim().replace(/^Rp\s*/i,'');
+ if(/^\d+$/.test(text))return text;
+ if(/^\d{1,3}(?:\.\d{3})+(?:,\d{1,2})?$/.test(text))return text.replace(/\./g,'').replace(',','.');
+ if(/^\d{1,3}(?:,\d{3})+(?:\.\d{1,2})?$/.test(text))return text.replace(/,/g,'');
+ if(/^\d+[,.]\d{1,2}$/.test(text))return text.replace(',','.');
+ return null;
+}
+document.querySelectorAll('[data-rupiah]').forEach(input=>{
+ const preview=document.createElement('p');preview.className='rupiah-preview';preview.id=input.id+'-preview';preview.setAttribute('aria-live','polite');input.insertAdjacentElement('afterend',preview);input.setAttribute('aria-describedby',[input.getAttribute('aria-describedby'),preview.id].filter(Boolean).join(' '));
+ const update=()=>{const value=rupiahValue(input.value);const invalid=input.value.trim()!==''&&value===null;input.setCustomValidity(invalid?'Gunakan 250000, 250.000, atau 250.000,00. Maksimal dua angka desimal.':'');preview.classList.toggle('invalid',invalid);preview.textContent=invalid?'Format belum valid. Contoh Rp250.000: 250000 atau 250.000,00.':value===null?'':new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',minimumFractionDigits:2}).format(Number(value));};input.addEventListener('input',update);update();
+});

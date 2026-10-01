@@ -12,9 +12,9 @@
 @php
 $role = auth()->user()->role;
 $planned = match($role) {
-    'admin' => [['orders','Pesanan'],['print','Layanan'],['box','Bahan'],['wallet','Pembayaran'],['users','Pengguna'],['chart','Analisis K-Means']],
+    'admin' => [['orders','Pesanan'],['print','Layanan'],['box','Bahan'],['wallet','Pembayaran'],['chat','Chat pesanan'],['users','Pengguna'],['chart','Analisis K-Means']],
     'manajer' => [['chart','Analisis pemesanan'],['box','Kebutuhan bahan'],['orders','Laporan']],
-    default => [['print','Katalog layanan'],['orders','Pesanan saya'],['wallet','Pembayaran']],
+    default => [['print','Katalog layanan'],['orders','Pesanan saya'],['wallet','Pembayaran'],['chat','Chat pesanan']],
 };
 @endphp
 <aside class="sidebar" id="sidebar">
@@ -23,7 +23,7 @@ $planned = match($role) {
 <nav aria-label="Navigasi utama"><a class="nav-item {{ request()->routeIs('*.dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}" @if(request()->routeIs('*.dashboard')) aria-current="page" @endif><x-icon/>Dashboard</a>
 <div class="nav-heading">MENU APLIKASI</div>
 @foreach($planned as [$icon, $label])
-@php $target = match(true) { $role==='admin' && $label==='Pesanan' => 'admin.orders.index', $role==='pelanggan' && $label==='Pesanan saya' => 'pelanggan.orders.index', $role==='admin' && $label==='Layanan' => 'admin.services.index', $role==='admin' && $label==='Bahan' => 'admin.materials.index', $role==='pelanggan' && $label==='Katalog layanan' => 'pelanggan.catalog', default => null }; @endphp
+@php $target = match(true) { in_array($role,['admin','pelanggan']) && $label==='Chat pesanan' => $role.'.chat.index', $role==='admin' && $label==='Pembayaran' => 'admin.payments.index', $role==='pelanggan' && $label==='Pembayaran' => 'pelanggan.payments.index', $role==='admin' && $label==='Pesanan' => 'admin.orders.index', $role==='pelanggan' && $label==='Pesanan saya' => 'pelanggan.orders.index', $role==='admin' && $label==='Layanan' => 'admin.services.index', $role==='admin' && $label==='Bahan' => 'admin.materials.index', $role==='pelanggan' && $label==='Katalog layanan' => 'pelanggan.catalog', default => null }; @endphp
 @if($target)<a class="nav-item {{ request()->routeIs(str_replace('.index','.*',$target)) ? 'active' : '' }}" href="{{ route($target) }}" @if(request()->routeIs(str_replace('.index','.*',$target))) aria-current="page" @endif><x-icon :name="$icon"/><span>{{ $label }}</span></a>
 @else
 <span class="nav-item planned" aria-disabled="true"><x-icon :name="$icon"/><span>{{ $label }}</span><span class="soon">Nanti</span></span>

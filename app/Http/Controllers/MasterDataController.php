@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Material;
 use App\Models\Service;
+use App\Services\RupiahInput;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -53,6 +54,7 @@ class MasterDataController extends Controller
         if ($meta['key'] === 'services') {
             $rules['minimum_quantity'] = ['sometimes', 'required', 'integer', 'min:1', 'max:1000000'];
             $rules['image'] = ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048', 'dimensions:max_width=6000,max_height=6000'];
+            RupiahInput::prepare($request, 'base_price');
             $rules['base_price'] = ['nullable', 'numeric', 'min:0', 'max:999999999999.99', 'decimal:0,2'];
         }
 

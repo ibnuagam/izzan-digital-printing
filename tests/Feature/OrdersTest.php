@@ -8,11 +8,17 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class OrdersTest extends TestCase
 {
     use RefreshDatabase;
+
+    private function settle(Order $order): void
+    {
+        $order->payments()->create(['user_id' => $order->user_id, 'submission_key' => (string) Str::uuid(), 'method' => 'bca_demo', 'method_label' => 'BCA simulasi', 'amount' => $order->fresh()->final_total, 'sender_name' => 'Uji', 'paid_on' => now()->toDateString(), 'proof_path' => 'fixture.jpg', 'status' => 'verified']);
+    }
 
     private function service(string $unit = 'm2', int $minimum = 1): Service
     {
@@ -117,6 +123,7 @@ class OrdersTest extends TestCase
             $this->post('/admin/orders/'.$order->id.'/progress', ['status' => $status])->assertRedirect();
         }
         $this->post('/admin/orders/'.$order->id.'/progress', ['status' => 'collected'])->assertSessionHasErrors('status');
+        $this->settle($order);
         $this->post('/admin/orders/'.$order->id.'/progress', ['status' => 'shipped', 'note' => 'Resi dummy'])->assertRedirect();
         $this->assertSame('shipped', $order->fresh()->status);
         $this->assertSame(6, $order->events()->count());
@@ -132,6 +139,7 @@ class OrdersTest extends TestCase
         $this->post('/pelanggan/orders/'.$order->id.'/approve', ['accepted_total' => $order->fresh()->final_total])->assertRedirect();
         $this->post('/pelanggan/orders/'.$order->id.'/approve', ['accepted_total' => $order->fresh()->final_total])->assertSessionHasErrors('action');
         $this->actingAs(User::factory()->create(['role' => 'admin']));
+        $this->settle($order);
         foreach (['processing', 'completed', 'collected'] as $status) {
             $this->post('/admin/orders/'.$order->id.'/progress', ['status' => $status])->assertRedirect();
         }

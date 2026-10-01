@@ -99,3 +99,8 @@ Flowchart dan ERD diminta untuk dibahas nanti, setelah kebutuhan lebih jelas. Ja
 - Kode aplikasi ditemukan di `/Applications/XAMPP/xamppfiles/htdocs/Project-Skripsi/izzan-printing`, terpisah dari checkout diskusi yang sebelumnya hanya berisi dokumentasi. Salinan kode dimasukkan ke root repositori agar dapat di-clone teman pengguna. Folder XAMPP tetap lokasi aplikasi yang sedang dijalankan; perubahan di sana belum otomatis tersinkron ke GitHub.
 - Kondisi implementasi yang diperiksa: Laravel 13, PHP minimal 8.3; autentikasi tiga peran, registrasi pelanggan, data master layanan/bahan, gambar layanan, katalog, pesanan/unggah desain, penawaran harga dan perubahan status tersedia. Pembayaran, K-Means, stok, nota dan pemberitahuan WhatsApp belum tersedia.
 - Repositori menyertakan migration, seeder dummy, composer.lock dan panduan Windows. .env, database lokal, desain pelanggan, gambar unggahan, vendor, cache dan log tidak diunggah. .env.example disiapkan untuk database MySQL/MariaDB lokal.
+
+## Pembaruan GitHub (1 Oktober 2026)
+
+- Salinan kode terbaru dari folder XAMPP disinkronkan: pembayaran simulasi DP/pelunasan dengan bukti privat dan verifikasi admin, kewajiban lunas sebelum penyerahan, nota cetak, chat privat per pesanan, input rupiah, template WhatsApp manual, kartu JPG dan catatan pengiriman manual. Pembayaran/WhatsApp tidak otomatis mengirim uang atau pesan.
+- Metode bank/QRIS adalah dummy. K-Means, stok, laporan dan dashboard keuangan belum tersedia. .env.example menambahkan placeholder alamat/telepon toko; konfigurasi dan data lokal tetap tidak diunggah.

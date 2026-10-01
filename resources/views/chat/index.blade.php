@@ -1,0 +1,8 @@
+@extends('layouts.app')
+@section('title','Chat pesanan | Izzan Digital Printing')
+@section('page-title','Chat pesanan')
+@section('content')
+<div class="page-heading"><div><span class="section-kicker">PERCAKAPAN PRIVAT</span><h1>Chat pesanan</h1><p>{{ auth()->user()->role==='admin'?'Diskusikan spesifikasi, harga, dan pembayaran dengan pelanggan.':'Tanyakan spesifikasi, negosiasikan harga, atau konfirmasi pembayaran kepada admin.' }}</p></div></div>
+<section class="panel order-details"><form method="get" class="chat-search"><label for="chat-search">Cari nomor pesanan atau layanan</label><div><input id="chat-search" name="q" value="{{ request('q') }}" maxlength="150" placeholder="Contoh: IZN atau Spanduk"><button class="button secondary">Cari</button></div></form>
+<div class="conversation-list">@forelse($orders as $order)<a class="conversation-item" href="{{ route(auth()->user()->role.'.chat.show',$order) }}"><span class="chat-avatar"><x-icon name="chat"/></span><span class="conversation-body"><strong>{{ $order->number }}</strong><span>{{ $order->service_name }} @if(auth()->user()->role==='admin') · {{ $order->user->name }} @endif</span><p>{{ $order->latestMessage ? \Illuminate\Support\Str::limit($order->latestMessage->body,130) : 'Belum ada percakapan. Mulai diskusi pesanan ini.' }}</p></span><span class="conversation-time">{{ $order->latestMessage?->created_at->timezone('Asia/Jakarta')->format('d M, H:i') }}<span class="order-status status-{{ $order->status }}">{{ \App\Models\Order::STATUSES[$order->status] }}</span></span></a>@empty<div class="empty-state"><h2>Belum ada pesanan yang sesuai</h2><p>Percakapan tersedia setelah pelanggan membuat pesanan.</p></div>@endforelse</div>{{ $orders->links() }}</section>
+@endsection
